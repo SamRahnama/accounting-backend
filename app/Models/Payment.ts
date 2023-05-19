@@ -2,6 +2,7 @@ import {DateTime} from 'luxon'
 import {BaseModel, column, computed, HasOne, hasOne} from '@ioc:Adonis/Lucid/Orm'
 import {PaymentTypes} from "App/Enums/payments.enum";
 import Loan from './Loan';
+import { DiscountTypes } from 'App/Enums/discounts';
 
 export default class Payment extends BaseModel {
   @column({isPrimary: true})
@@ -12,6 +13,9 @@ export default class Payment extends BaseModel {
 
   @column()
   public discount: number
+
+  @column()
+  public discountType: DiscountTypes
 
   @column()
   public total: number

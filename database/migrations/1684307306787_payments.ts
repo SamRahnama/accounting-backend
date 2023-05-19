@@ -1,4 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
+import { DiscountTypes } from 'App/Enums/discounts';
 import { PaymentTypes } from "App/Enums/payments.enum";
 
 export default class extends BaseSchema {
@@ -10,6 +11,7 @@ export default class extends BaseSchema {
       table.enum('type', Object.values(PaymentTypes)).defaultTo(PaymentTypes.CASH).notNullable()
       table.integer('paid_amount').unsigned()
       table.float('discount').unsigned()
+      table.enum('discount_type', Object.values(DiscountTypes))
       table.integer('total').unsigned()
       table.timestamps(true, true)
 
