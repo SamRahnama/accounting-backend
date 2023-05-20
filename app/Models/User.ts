@@ -1,8 +1,10 @@
-import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import {DateTime} from 'luxon'
+import {BaseModel, beforeSave, BelongsTo, belongsTo, column} from '@ioc:Adonis/Lucid/Orm'
+import Hash from '@ioc:Adonis/Core/Hash'
+import Role from './Role'
 
 export default class User extends BaseModel {
-  @column({ isPrimary: true })
+  @column({isPrimary: true})
   public id: number
 
   @column()
@@ -17,9 +19,15 @@ export default class User extends BaseModel {
   @column()
   public phoneNumber: string
 
-  @column.dateTime({ autoCreate: true })
+  @column({serializeAs: null})
+  public password: string
+
+  @column()
+  public rememberMeToken?: string
+
+  @column.dateTime({autoCreate: true})
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({autoCreate: true, autoUpdate: true})
   public updatedAt: DateTime
 }
