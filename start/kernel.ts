@@ -21,6 +21,7 @@ import Server from '@ioc:Adonis/Core/Server'
 |
 */
 Server.middleware.register([
+  () => import('@ioc:Adonis/Addons/RmbMiddleware'),
   () => import('@ioc:Adonis/Core/BodyParser'),
 ])
 
