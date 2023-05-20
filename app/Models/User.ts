@@ -30,4 +30,13 @@ export default class User extends BaseModel {
 
   @column.dateTime({autoCreate: true, autoUpdate: true})
   public updatedAt: DateTime
+
+  @belongsTo(()=> Role)
+  public role: BelongsTo<typeof Role>
+
+  @beforeSave()
+  public static async hashPasword(user: User){
+    if (user.$dirty.password)
+      user.password = await Hash.make(user.password)
+  }
 }
