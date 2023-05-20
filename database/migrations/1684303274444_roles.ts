@@ -8,7 +8,6 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name')
       table.string('label')
-
       table.timestamps(true,true)
     })
   }
