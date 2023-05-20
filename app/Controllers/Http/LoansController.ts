@@ -3,6 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Loan from 'App/Models/Loan'
 import CreateLoanValidator from 'App/Validators/CreateLoanValidator'
 import UpdateLoanValidator from 'App/Validators/UpdateLoanValidator'
+import {bind} from '@adonisjs/route-model-binding'
 
 export default class LoansController {
   public async index({request}: HttpContextContract) {
@@ -12,12 +13,6 @@ export default class LoansController {
   }
 
 
-  public async show({params}: HttpContextContract) {
-    const loan = await Loan.findOrFail(params.id)
-    await loan.load('payment')
-    return loan
-  }
-
   public async store({request}: HttpContextContract) {
     const payload = await request.validate(CreateLoanValidator)
     const loan = await Loan.create(payload)
@@ -25,15 +20,21 @@ export default class LoansController {
     return loan
   }
 
-  public async update({params, request}: HttpContextContract) {
-    const loan = await Loan.findOrFail(params.id)
+  @bind()
+  public async show({}, loan: Loan) {
+    await loan.load('payment')
+    return loan
+  }
+
+  @bind()
+  public async update({request}: HttpContextContract, loan: Loan) {
     const payload = await request.validate(UpdateLoanValidator)
     await loan.merge(payload).save()
     return loan
   }
 
-  public async destroy({params}: HttpContextContract) {
-    const loan = await Loan.findOrFail(params.id)
+  @bind()
+  public async destroy({}, loan: Loan) {
     await loan.delete()
     return loan
   }

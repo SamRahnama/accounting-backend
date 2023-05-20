@@ -4,6 +4,7 @@ import Product from 'App/Models/Product'
 import CreateProductValidator from "App/Validators/CreateProductValidator"
 // import Logger from "@ioc:Adonis/Core/Logger"
 import UpdateProductValidator from 'App/Validators/UpdateProductValidator'
+import {bind} from '@adonisjs/route-model-binding'
 
 export default class ProductsController {
   public async index({request}: HttpContextContract) {
@@ -27,16 +28,14 @@ export default class ProductsController {
     return product
   }
 
-  public async show({request}: HttpContextContract) {
-    const id = request.params().id
-    const product = await Product.findOrFail(id)
-    return product.toJSON()
+  @bind()
+  public async show({}, product: Product) {
+    return product
   }
 
-  public async update({request}: HttpContextContract) {
-    let id = request.params().id
+  @bind()
+  public async update({request}: HttpContextContract, product: Product) {
     const payload: any = request.validate(UpdateProductValidator)
-    const product = await Product.findOrFail(id)
     await product.merge(payload).save()
     try {
       if (payload.categories)
@@ -49,8 +48,7 @@ export default class ProductsController {
     return product
   }
 
-  public async destroy({params}: HttpContextContract) {
-    const product = await Product.findOrFail(params.id)
+  public async destroy({}, product: Product) {
     await product.delete()
     return product
   }

@@ -12,17 +12,16 @@ export default class AuthController {
 
   public async register({request, auth}: HttpContextContract) {
     const payload = await request.validate(RegisterUserValidator)
-    const rememberMe = payload.remember_me
-    delete payload.remember_me
     const user = await User.create(payload)
     const token = await auth.attempt(payload.email, payload.password)
-    return {user, token, rememberMe}
+    return {user, token}
   }
 
   public async validate({auth}: HttpContextContract) {
     const isLoggedIn = await auth.check()
     return {isLoggedIn}
   }
+
   public async logout({auth}: HttpContextContract) {
     const result = await auth.logout()
     return {result}

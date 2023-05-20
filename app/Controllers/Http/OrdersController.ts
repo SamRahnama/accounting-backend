@@ -4,6 +4,7 @@ import Order from 'App/Models/Order'
 import CreateOrderValidator from 'App/Validators/CreateOrderValidator'
 import Logger from '@ioc:Adonis/Core/Logger'
 import UpdateOrderValidator from 'App/Validators/UpdateOrderValidator'
+import {bind} from '@adonisjs/route-model-binding'
 
 export default class OrdersController {
   public async index({request}: HttpContextContract) {
@@ -27,14 +28,14 @@ export default class OrdersController {
     return order.toJSON()
   }
 
-  public async show({params}: HttpContextContract) {
-    let order = await Order.findOrFail(params.id)
+  @bind()
+  public async show({}, order: Order) {
     await order.load('products')
     return order
   }
 
-  public async update({request, params}: HttpContextContract) {
-    let order = await Order.findOrFail(params.id)
+  @bind()
+  public async update({request}: HttpContextContract, order: Order) {
     let payload: any = await request.validate(UpdateOrderValidator)
     order.merge(payload)
     try {
@@ -49,8 +50,8 @@ export default class OrdersController {
     return order
   }
 
-  public async destroy({params}: HttpContextContract) {
-    let order = await Order.findOrFail(params.id)
+  @bind()
+  public async destroy({}, order: Order) {
     await order.delete()
     return order
   }

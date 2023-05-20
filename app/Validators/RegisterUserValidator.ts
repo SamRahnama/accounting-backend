@@ -10,7 +10,7 @@ export default class RegisterUserValidator {
     last_name: schema.string(),
     email: schema.string([rules.email()]),
     password: schema.string([rules.minLength(8)]),
-    remember_me: schema.boolean.optional()
+    phone_number: schema.string.optional()
   })
 
 

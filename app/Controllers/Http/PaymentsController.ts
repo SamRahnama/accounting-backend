@@ -4,6 +4,7 @@ import {DiscountTypes} from 'App/Enums/discounts'
 import Payment from 'App/Models/Payment'
 import CreatePaymentValidator from 'App/Validators/CreatePaymentValidator'
 import UpdatePaymentValidator from 'App/Validators/UpdatePaymentValidator'
+import {bind} from '@adonisjs/route-model-binding'
 
 export default class PaymentsController {
 
@@ -25,21 +26,21 @@ export default class PaymentsController {
     return payment
   }
 
-  public async show({params}: HttpContextContract) {
-    const payment = await Payment.findOrFail(params.id)
+  @bind()
+  public async show({}, payment: Payment) {
     await payment.load('loan')
     return payment
   }
 
-  public async update({params, request}: HttpContextContract) {
-    const payment = await Payment.findOrFail(params.id)
+  @bind()
+  public async update({request}: HttpContextContract, payment: Payment) {
     const payload = await request.validate(UpdatePaymentValidator)
     await payment.merge(payload).save()
     return payment
   }
 
-  public async destroy({params}: HttpContextContract) {
-    const payment = await Payment.findOrFail(params.id)
+  @bind()
+  public async destroy({}, payment: Payment) {
     await payment.delete()
     return payment
   }

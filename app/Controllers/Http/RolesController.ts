@@ -3,6 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Role from 'App/Models/Role'
 import CreateRoleValidator from 'App/Validators/CreateRoleValidator'
 import UpdateRoleValidator from 'App/Validators/UpdateRoleValidator'
+import {bind} from '@adonisjs/route-model-binding'
 
 export default class RolesController {
   public async index({request}: HttpContextContract) {
@@ -17,21 +18,21 @@ export default class RolesController {
     return role
   }
 
-  public async show({params}: HttpContextContract) {
-    const role = await Role.findOrFail(params.id)
+  @bind()
+  public async show({}, role: Role) {
     return role
   }
 
-  public async update({params, request}: HttpContextContract) {
-    const role = await Role.findOrFail(params.id)
+  @bind()
+  public async update({request}: HttpContextContract, role: Role) {
     const payload = await request.validate(UpdateRoleValidator)
     await role.merge(payload).save()
     return role
   }
 
 
-  public async destroy({params}: HttpContextContract) {
-    const role = await Role.findOrFail(params.id)
+  @bind()
+  public async destroy({}, role: Role) {
     await role.delete()
     return role
   }

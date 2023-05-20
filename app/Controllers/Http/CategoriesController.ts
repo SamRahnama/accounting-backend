@@ -3,6 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Category from 'App/Models/Category'
 import CreateCategoryValidator from 'App/Validators/CreateCategoryValidator'
 import UpdateCategoryValidator from 'App/Validators/UpdateCategoryValidator'
+import {bind} from '@adonisjs/route-model-binding'
 
 export default class CategoriesController {
   public async index({request}: HttpContextContract) {
@@ -17,28 +18,26 @@ export default class CategoriesController {
     return category.toJSON()
   }
 
-  public async show({request}: HttpContextContract) {
-    const id = request.params().id
-    const category = await Category.findOrFail(id)
-    return category.toJSON()
+  @bind()
+  public async show({}, category: Category) {
+    return category
   }
 
-  public async update({request, params}: HttpContextContract) {
+  @bind()
+  public async update({request}: HttpContextContract, category: Category) {
     const payload: any = request.validate(UpdateCategoryValidator)
-    const category = await Category.findOrFail(params.id)
     await category.merge(payload).save()
-    return category.toJSON()
-
+    return category
   }
 
-  public async destroy({params}: HttpContextContract) {
-    const category = await Category.findOrFail(params.id)
+  @bind()
+  public async destroy({}, category: Category) {
     await category.delete()
     return category
   }
 
-  public async children({params}: HttpContextContract) {
-    const category = await Category.findOrFail(params.id)
+  @bind()
+  public async children({}, category: Category) {
     await category.load('children')
     return category.toJSON()
   }

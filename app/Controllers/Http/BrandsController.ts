@@ -3,6 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Brand from 'App/Models/Brand'
 import CreateBrandValidator from 'App/Validators/CreateBrandValidator'
 import {schema, rules} from '@ioc:Adonis/Core/Validator'
+import {bind} from '@adonisjs/route-model-binding'
 
 export default class BrandsController {
   public async index({request}: HttpContextContract) {
@@ -17,25 +18,25 @@ export default class BrandsController {
     return brand.toJSON()
   }
 
-  public async show({request}: HttpContextContract) {
-    const id = request.params().id
-    const brand = await Brand.findOrFail(id)
+  @bind()
+  public async show({}, brand: Brand) {
     return brand.toJSON()
   }
 
-  public async update({request, params}: HttpContextContract) {
+  @bind()
+  public async update({request}: HttpContextContract, brand: Brand) {
     const payload: any = request.validate({
       schema: schema.create({
         name: schema.string.optional([rules.trim()])
       })
     })
-    const brand = await Brand.findOrFail(params.id)
     brand.merge(payload).save()
     return brand.toJSON()
 
   }
-  public async destroy({params}: HttpContextContract) {
-    const brand = await Brand.findOrFail(params.id)
+
+  @bind()
+  public async destroy({}, brand: Brand) {
     await brand.delete()
     return brand
   }
