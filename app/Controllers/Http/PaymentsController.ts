@@ -27,20 +27,20 @@ export default class PaymentsController {
 
   public async show({params}: HttpContextContract) {
     const payment = await Payment.findOrFail(params.id)
-    payment.load('loan')
+    await payment.load('loan')
     return payment
   }
 
   public async update({params, request}: HttpContextContract) {
     const payment = await Payment.findOrFail(params.id)
     const payload = await request.validate(UpdatePaymentValidator)
-    payment.merge(payload)
+    await payment.merge(payload).save()
     return payment
   }
 
   public async destroy({params}: HttpContextContract) {
     const payment = await Payment.findOrFail(params.id)
-    payment.delete()
+    await payment.delete()
     return payment
   }
 }

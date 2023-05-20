@@ -51,7 +51,7 @@ export default class OrdersController {
 
   public async destroy({params}: HttpContextContract) {
     let order = await Order.findOrFail(params.id)
-    order.delete()
+    await order.delete()
     return order
   }
 }

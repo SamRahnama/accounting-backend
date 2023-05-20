@@ -17,10 +17,10 @@ export default class ProductsController {
     const product = await Product.create(data)
     try {
       if (data.categroies) {
-        product.related('categories').attach(data.categroies)
+        await product.related('categories').attach(data.categroies)
       }
       if (data.brand_id)
-        product.related('brand').associate(data.brand_id)
+        await product.related('brand').associate(data.brand_id)
     } catch (e) {
       return e
     }
@@ -37,12 +37,12 @@ export default class ProductsController {
     let id = request.params().id
     const payload: any = request.validate(UpdateProductValidator)
     const product = await Product.findOrFail(id)
-    product.merge(payload).save()
+    await product.merge(payload).save()
     try {
       if (payload.categories)
-        product.related('categories').sync(payload.categories)
+        await product.related('categories').sync(payload.categories)
       if (payload.brand_id)
-        product.related('brand').associate(payload.brand_id)
+        await product.related('brand').associate(payload.brand_id)
     } catch (e) {
       return e
     }
@@ -51,7 +51,7 @@ export default class ProductsController {
 
   public async destroy({params}: HttpContextContract) {
     const product = await Product.findOrFail(params.id)
-    product.delete()
+    await product.delete()
     return product
   }
 }

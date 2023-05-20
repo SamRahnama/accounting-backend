@@ -36,7 +36,7 @@ export default class BrandsController {
   }
   public async destroy({params}: HttpContextContract) {
     const brand = await Brand.findOrFail(params.id)
-    brand.delete()
+    await brand.delete()
     return brand
   }
 }

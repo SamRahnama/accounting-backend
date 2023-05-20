@@ -26,14 +26,14 @@ export default class CategoriesController {
   public async update({request, params}: HttpContextContract) {
     const payload: any = request.validate(UpdateCategoryValidator)
     const category = await Category.findOrFail(params.id)
-    category.merge(payload).save()
+    await category.merge(payload).save()
     return category.toJSON()
 
   }
 
   public async destroy({params}: HttpContextContract) {
     const category = await Category.findOrFail(params.id)
-    category.delete()
+    await category.delete()
     return category
   }
 
