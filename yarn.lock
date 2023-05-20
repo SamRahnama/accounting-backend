@@ -91,7 +91,7 @@
   dependencies:
     "@poppinss/utils" "^5.0.0"
 
-"@adonisjs/core@^5.0.0", "@adonisjs/core@^5.1.0", "@adonisjs/core@^5.7.1", "@adonisjs/core@^5.8.0":
+"@adonisjs/core@^5.0.0", "@adonisjs/core@^5.1.0", "@adonisjs/core@^5.7.1", "@adonisjs/core@^5.8.0", "@adonisjs/core@^5.8.3":
   version "5.9.0"
   resolved "https://registry.npmjs.org/@adonisjs/core/-/core-5.9.0.tgz"
   integrity sha512-32zG9EW0t0Ck0cMzlwD0+z3GJG7k/gZz6P0+h+s8N1N7fHxGixrKs7W7lT3OcIvk0NsuIw1tUPAU7fAWytHEqA==
@@ -257,6 +257,13 @@
     pirates "^4.0.5"
     rev-hash "^3.0.0"
     source-map-support "^0.5.21"
+
+"@adonisjs/route-model-binding@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@adonisjs/route-model-binding/-/route-model-binding-1.0.1.tgz"
+  integrity sha512-EmUFMaD7ILHempGGNKT0Z7zKts5ykCFfo1dHWAEJza6LIUswkp/NyLy+8YOjQHSdZU5/nAp1vwWrXFA9OefQ0Q==
+  dependencies:
+    "@poppinss/utils" "^4.0.4"
 
 "@adonisjs/sink@^5.4.2":
   version "5.4.3"
