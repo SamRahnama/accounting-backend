@@ -6,6 +6,8 @@ import paymentRoutes from "./payment"
 import orderRoutes from "./order"
 import categoryRoutes from "./category"
 import brandRoutes from "./brand"
+import loanRoutes from "./loan"
+import authRoutes from "./auth"
 
 import AutoSwagger from "adonis-autoswagger";
 import swagger from "Config/swagger";
@@ -14,13 +16,17 @@ Route.get('/', async () => {
   return {hello: 'world'}
 })
 Route.group(() => {
-  userRoutes()
-  roleRoutes()
-  paymentRoutes()
-  productRoutes()
-  orderRoutes()
-  categoryRoutes()
-  brandRoutes()
+  Route.group(() => {
+    userRoutes()
+    roleRoutes()
+    paymentRoutes()
+    productRoutes()
+    orderRoutes()
+    categoryRoutes()
+    brandRoutes()
+    loanRoutes()
+  }).middleware('auth')
+  authRoutes()
 }).prefix('/api/v1').as('api.v1')
 
 Route.get("/swagger", async () => {
