@@ -16,7 +16,7 @@ jobs:
         # every step must define a `uses` or `run` key
     steps:
     - name: export-env-action
-    - uses: cardinalby/export-env-action@v2
+      uses: cardinalby/export-env-action@v2
       with: 
         envFile: '.env'
     - uses: actions/checkout@v3
