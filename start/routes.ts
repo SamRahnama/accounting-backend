@@ -8,13 +8,11 @@ import categoryRoutes from "./category"
 import brandRoutes from "./brand"
 import loanRoutes from "./loan"
 import authRoutes from "./auth"
+import storeRoutes from "./routes/stores"
 
 import AutoSwagger from "adonis-autoswagger";
 import swagger from "Config/swagger";
 
-Route.get('/', async () => {
-  return {hello: 'world'}
-})
 Route.group(() => {
   Route.group(() => {
     userRoutes()
@@ -25,6 +23,7 @@ Route.group(() => {
     categoryRoutes()
     brandRoutes()
     loanRoutes()
+    storeRoutes()
   }).middleware('auth')
   authRoutes()
 }).prefix('/api/v1').as('api.v1')
