@@ -12,6 +12,8 @@ export default class CreateProductValidator {
       column: 'id'
     })])),
     quantity: schema.number([rules.unsigned()]),
+    cost: schema.number([rules.unsigned()]),
+    price: schema.number([rules.unsigned()]),
     description: schema.string.optional({trim: true}),
     brand_id: schema.number.optional([rules.exists({table: 'brands', column: 'id'})]),
   })
