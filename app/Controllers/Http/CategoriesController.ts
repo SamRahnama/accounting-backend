@@ -39,6 +39,12 @@ export default class CategoriesController {
   @bind()
   public async children({}, category: Category) {
     await category.load('children')
-    return category.toJSON()
+    return category
+  }
+
+  @bind()
+  public async parent({}, category: Category) {
+    await category.load('parent')
+    return category
   }
 }
