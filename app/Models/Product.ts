@@ -3,6 +3,7 @@ import {BaseModel, BelongsTo, belongsTo, column, computed, manyToMany, ManyToMan
 import Brand from "App/Models/Brand";
 import Category from './Category';
 import Order from './Order';
+import Store from './Store';
 
 export default class Product extends BaseModel {
   @column({isPrimary: true})
@@ -17,11 +18,19 @@ export default class Product extends BaseModel {
   @column()
   public quantity: string
 
+  @column()
+  public brandId: number
+
   @belongsTo(() => Brand)
   public brand: BelongsTo<typeof Brand>
 
   @manyToMany(() => Category)
   public categories: ManyToMany<typeof Category>
+
+  @manyToMany(() => Store, {
+    pivotColumns: ['quantity', 'cost', 'price']
+  })
+  public stores: ManyToMany<typeof Store>
 
   @manyToMany(() => Order, {
     pivotColumns: ['price', 'number'],
@@ -39,12 +48,13 @@ export default class Product extends BaseModel {
 
   // returns how many products are inside of its order
   @computed()
-  public get productNumber(){
+  public get productNumber() {
     return this.$extras.pivot_number
   }
+
   // returns order's product's price
   @computed()
-  public get price(){
+  public get price() {
     return this.$extras.pivot_price
   }
 }
