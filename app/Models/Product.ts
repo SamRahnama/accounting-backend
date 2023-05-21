@@ -16,9 +16,6 @@ export default class Product extends BaseModel {
   public description: string
 
   @column()
-  public quantity: string
-
-  @column()
   public brandId: number
 
   @belongsTo(() => Brand)
