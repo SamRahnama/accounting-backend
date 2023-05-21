@@ -8,7 +8,6 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name').notNullable()
       table.string('description')
-      table.integer('quantity').unsigned()
       table.integer('brand_id').unsigned().references('brands.id').onDelete('CASCADE')
       table.timestamps(true,true)
 
