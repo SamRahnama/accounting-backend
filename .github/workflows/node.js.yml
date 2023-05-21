@@ -15,11 +15,6 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         # every step must define a `uses` or `run` key
     steps:
-    - run: ls
-    - name: export-env-action
-      uses: cardinalby/export-env-action@v2
-      with: 
-        envFile: './prod.env'
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -28,4 +23,9 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: node ace build --production
+    - run: ls
+    - name: export-env-action
+      uses: cardinalby/export-env-action@v2
+      with: 
+        envFile: './prod.env'
     - run: node build/server.js
