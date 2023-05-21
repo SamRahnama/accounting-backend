@@ -28,4 +28,4 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: node ace build --production
-    - run: node server.js
+    - run: node build/server.js
