@@ -15,6 +15,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         # every step must define a `uses` or `run` key
     steps:
+    - run: ls
     - name: export-env-action
       uses: cardinalby/export-env-action@v2
       with: 
