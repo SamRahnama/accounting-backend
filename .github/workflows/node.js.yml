@@ -8,19 +8,17 @@ on:
     branches: [ "master" ]
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+        # every step must define a `uses` or `run` key
     steps:
     - name: export-env-action
     - uses: cardinalby/export-env-action@v2
-      with:
-        envFile: 'constants.env'
+      with: 
+        envFile: '.env'
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
