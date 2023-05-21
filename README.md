@@ -4,7 +4,6 @@
 This is a backend application for accounting built with AdonisJS. It provides models and controllers for managing authentication, brands, products, categories, orders, payments, loans, roles, and users.
 
 ## Getting Started
-R
 To use this application, you need to have Node.js and a database (MySQL, PostgreSQL, or SQLite) installed. Then, follow these steps:
 
 1. Clone this repository: `git clone <repository-url>`
@@ -23,7 +22,7 @@ Here are the available API endpoints:
 
 - `POST /api/v1/auth/register`: Register a new user.
 - `POST /api/v1/auth/login`: Login with email and password.
-- `GET /api/v1/auth/me`: Get the current user's profile.
+- `GET /api/v1/auth/validate`: Get the current auth status.
 
 ### Brands
 
