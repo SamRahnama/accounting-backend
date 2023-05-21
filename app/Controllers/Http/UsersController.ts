@@ -9,7 +9,7 @@ export default class UsersController {
   public async index(ctx: HttpContextContract) {
     let page = ctx.request.qs().page
     const users = await Database.from('users').paginate(page, 8)
-    return users.toJSON()
+    return users
   }
 
   public async store({request}: HttpContextContract) {

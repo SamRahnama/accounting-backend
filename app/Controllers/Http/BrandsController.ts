@@ -15,12 +15,12 @@ export default class BrandsController {
   public async store({request}: HttpContextContract) {
     const payload: any = await request.validate(CreateBrandValidator)
     const brand = await Brand.create(payload)
-    return brand.toJSON()
+    return brand
   }
 
   @bind()
   public async show({}, brand: Brand) {
-    return brand.toJSON()
+    return brand
   }
 
   @bind()
@@ -30,8 +30,8 @@ export default class BrandsController {
         name: schema.string.optional([rules.trim()])
       })
     })
-    brand.merge(payload).save()
-    return brand.toJSON()
+    await brand.merge(payload).save()
+    return brand
 
   }
 
