@@ -1,15 +1,13 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'categories'
+  protected tableName = 'stores'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name')
-      table.integer('category_id').unsigned().references('categories.id').onDelete('CASCADE')
-      table.timestamps(true,true)
-
+      table.timestamps(true, true)
     })
   }
 

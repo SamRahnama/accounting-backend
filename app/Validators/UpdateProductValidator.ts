@@ -11,6 +11,8 @@ export default class UpdateProductValidator {
       column: 'id'
     })])),
     quantity: schema.number.optional([rules.unsigned()]),
+    cost: schema.number.optional([rules.unsigned()]),
+    price: schema.number.optional([rules.unsigned()]),
     description: schema.string.optional({trim: true}),
     brand_id: schema.number.optional([rules.exists({table: 'brands', column: 'id'})]),
   })

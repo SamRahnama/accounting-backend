@@ -10,7 +10,7 @@ export default class OrdersController {
   public async index({request}: HttpContextContract) {
     let page = request.qs().page
     let orders = await Database.from('orders').paginate(page, 8)
-    return orders.toJSON()
+    return orders
   }
 
   public async store({request}: HttpContextContract) {
@@ -25,7 +25,7 @@ export default class OrdersController {
     } catch (e) {
       Logger.error(e)
     }
-    return order.toJSON()
+    return order
   }
 
   @bind()

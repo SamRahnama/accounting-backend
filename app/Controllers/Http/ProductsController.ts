@@ -5,6 +5,7 @@ import CreateProductValidator from "App/Validators/CreateProductValidator"
 // import Logger from "@ioc:Adonis/Core/Logger"
 import UpdateProductValidator from 'App/Validators/UpdateProductValidator'
 import {bind} from '@adonisjs/route-model-binding'
+import Store from 'App/Models/Store'
 
 export default class ProductsController {
   public async index({request}: HttpContextContract) {
@@ -13,16 +14,27 @@ export default class ProductsController {
     return products.toJSON()
   }
 
-  public async store({request}: HttpContextContract) {
+
+  @bind()
+  public async storeOnStorage({request}: HttpContextContract, store: Store) {
     const data: any = await request.validate(CreateProductValidator)
+    const {quantity, cost, price}: { quantity: number, cost: number, price: number } = data
+    let storageData = {}
+    storageData[store.id] = {
+      quantity, cost, price
+    }
+    delete data.cost
+    delete data.price
+    delete data.quantity
     const product = await Product.create(data)
     try {
       if (data.categroies) {
         await product.related('categories').attach(data.categroies)
       }
-      if (data.brand_id)
-        await product.related('brand').associate(data.brand_id)
+      if (store)
+        await product.related('stores').attach(storageData)
     } catch (e) {
+      console.log(e)
       return e
     }
     return product
@@ -30,18 +42,29 @@ export default class ProductsController {
 
   @bind()
   public async show({}, product: Product) {
+    await product.load(preloader => {
+      preloader.load('stores').load('brand').load('categories')
+    })
     return product
   }
 
   @bind()
-  public async update({request}: HttpContextContract, product: Product) {
-    const payload: any = request.validate(UpdateProductValidator)
+  public async update({request}: HttpContextContract, product: Product, store: Store) {
+    const payload: any = await request.validate(UpdateProductValidator)
+    const {quantity, cost, price}: { quantity: number, cost: number, price: number } = payload
+    let storageData = {}
+    storageData[store.id] = {
+      quantity, cost, price
+    }
+    delete payload.cost
+    delete payload.price
+    delete payload.quantity
     await product.merge(payload).save()
     try {
       if (payload.categories)
         await product.related('categories').sync(payload.categories)
-      if (payload.brand_id)
-        await product.related('brand').associate(payload.brand_id)
+      if (store)
+        await product.related('stores').attach(storageData)
     } catch (e) {
       return e
     }

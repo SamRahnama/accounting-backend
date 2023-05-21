@@ -6,7 +6,7 @@ export default class CreateCategoryValidator {
 
   public schema = schema.create({
     name: schema.string([rules.trim()]),
-    parent_id: schema.number.optional([rules.exists({table:'categories',column:'id'})])
+    category_id: schema.number.optional([rules.exists({table:'categories',column:'id'})])
   })
 
   public messages: CustomMessages = {}

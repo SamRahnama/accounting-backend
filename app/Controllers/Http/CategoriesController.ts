@@ -9,13 +9,13 @@ export default class CategoriesController {
   public async index({request}: HttpContextContract) {
     let page = request.qs().page
     let categories = await Database.from('categories').paginate(page, 8)
-    return categories.toJSON()
+    return categories
   }
 
   public async store({request}: HttpContextContract) {
     const payload: any = await request.validate(CreateCategoryValidator)
     const category = await Category.create(payload)
-    return category.toJSON()
+    return category
   }
 
   @bind()
@@ -39,6 +39,12 @@ export default class CategoriesController {
   @bind()
   public async children({}, category: Category) {
     await category.load('children')
-    return category.toJSON()
+    return category
+  }
+
+  @bind()
+  public async parent({}, category: Category) {
+    await category.load('parent')
+    return category
   }
 }
