@@ -21,7 +21,17 @@ export default class Store extends BaseModel {
   public updatedAt: DateTime
 
   @computed()
-  public get extra() {
+  public get cost() {
     return this.$extras.pivot_cost
+  }
+
+  @computed()
+  public get price() {
+    return this.$extras.pivot_price
+  }
+
+  @computed()
+  public get quatity() {
+    return this.$extras.pivot_quantity
   }
 }
