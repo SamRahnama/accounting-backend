@@ -9,15 +9,15 @@ export default class Category extends BaseModel {
   public name: string
 
   @column()
-  public parent_id: number
+  public category_id: number /*the reason its working this way and not with categoryId is unknown :|*/
 
   @belongsTo(() => Category, {
-    foreignKey: 'parent_id'
+    foreignKey: 'category_id'
   })
   public parent: BelongsTo<typeof Category>
 
   @hasMany(() => Category, {
-    foreignKey: 'parent_id'
+    foreignKey: 'category_id'
   })
   public children: HasMany<typeof Category>
 
