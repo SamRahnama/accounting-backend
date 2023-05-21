@@ -27,7 +27,6 @@ export default class ProductsController {
     delete data.price
     delete data.quantity
     const product = await Product.create(data)
-
     try {
       if (data.categroies) {
         await product.related('categories').attach(data.categroies)
@@ -50,14 +49,22 @@ export default class ProductsController {
   }
 
   @bind()
-  public async update({request}: HttpContextContract, product: Product) {
-    const payload: any = request.validate(UpdateProductValidator)
+  public async update({request}: HttpContextContract, product: Product, store: Store) {
+    const payload: any = await request.validate(UpdateProductValidator)
+    const {quantity, cost, price}: { quantity: number, cost: number, price: number } = payload
+    let storageData = {}
+    storageData[store.id] = {
+      quantity, cost, price
+    }
+    delete payload.cost
+    delete payload.price
+    delete payload.quantity
     await product.merge(payload).save()
     try {
       if (payload.categories)
         await product.related('categories').sync(payload.categories)
-      if (payload.brand_id)
-        await product.related('brand').associate(payload.brand_id)
+      if (store)
+        await product.related('stores').attach(storageData)
     } catch (e) {
       return e
     }
