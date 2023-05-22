@@ -13,7 +13,7 @@ export default class DocsGenerate extends BaseCommand {
   }
 
   public async run() {
-    const Router = await this.application.container.use('@ioc:Adonis/Core/Route')
+    const Router = await this.application.container.use('Adonis/Core/Route')
     Router.commit()
     await AutoSwagger.writeFile(await Router.toJSON(), swagger)
   }
